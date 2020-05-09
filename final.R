@@ -1,5 +1,4 @@
-setwd("~/Documents/Harvard/23c/final/wine-reviews")
-
+setwd("~/Documents/Harvard/23c/23cfinal")
 wine = read.csv("winemag-data-130k-v2.csv")
 head(wine)
 
@@ -32,9 +31,15 @@ hist(points, breaks=20, prob = TRUE, col = "cornflowerblue", xlab = "Points /100
 
 ##############################
 # Permutation Test
-# Testing the question: is wine from Souther France statistically sig
+# Testing the question: is wine from Southwest France statistically significantly
+# different than the population of wines?
 region = subset(wine, province == "Southwest France")
-region_mean = mean(region$points); region_mean
+
+# The two have very close means, 88.60745 for SWF and 88.42188 for all wines
+region_mean = mean(region$points); region_mean; mu
+
+# However, the number of wines from SWF is large, 1503. Is that enough for
+# such a small difference to be significant?
 nrow(region)
 
 n = numeric(10000)
@@ -42,7 +47,7 @@ for(i in 1:length(n)){
   s = sample(1:nrow(wine), nrow(region))
   n[i] = mean(wine$points[s]) - mu
 }
-hist(n, breaks = 20, prob = TRUE)
+hist(n, breaks = 40, prob = TRUE, main = "Difference of SW France and Population Means", xlab = )
 abline(v = region_mean - mu)
 abline(v = mu - region_mean)
 
@@ -51,13 +56,20 @@ p = mean(abs(n) > abs(region_mean - mu)); p
 # p-value based on a distribution function
 
 # By CLT, sample means should be normally distributed
-sampdist_sd = sd(wine$points)/sqrt(nrow(region))
+sampdist_sd = sig/sqrt(nrow(region))
 curve(dnorm(x, mean = 0, sd = sampdist_sd), add = TRUE)
-p = pnorm(-abs(region_mean - others_mean), mean = 0, sd = sampdist_sd) + pnorm(abs(region_mean - others_mean), mean = 0, sd = sampdist_sd, lower.tail = FALSE); p
+p = pnorm(-abs(region_mean - mu), mean = 0, sd = sampdist_sd) + pnorm(abs(region_mean - mu), mean = 0, sd = sampdist_sd, lower.tail = FALSE); p
 
 # The p-value calculations by the simulation method produced (on my specific run)
 # a p-value of 0.0082, which is quite close to the classically-calculated p-value
 # of 0.00938. Success!
+
+
+# 95% Confidence interval of SWF points does not contain the population mean
+z = abs(qnorm(0.025))
+region_mean - z * sampdist_sd; region_mean + z * sampdist_sd 
+mu
+
 
 ##############################
 # Contingency Table
@@ -75,12 +87,14 @@ for (i in 1:N){
 }
 
 hist(TC, breaks = 20)
-sum(cali&chard) # off the charts, p = 0
+sum(cali&chard) # off the charts, p ~=~ 0
 
 fisher.test(chard,cali, alternative = "g") # p-value < 2.2 * 10 ^ (-16)
 # Very significant!
 
 #############################
+# Linear regression
+
 
 
 # The additional points:
