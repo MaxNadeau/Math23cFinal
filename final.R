@@ -29,7 +29,19 @@ ggplot(five_wine, aes(x = province, y = points, fill=province)) +
   geom_violin(trim = FALSE) + 
   stat_summary(fun.y=median, geom="point", shape=23, size=2) +
   geom_boxplot(width=0.1) 
+  # The oscillateion of the density function is due to the integer-only rating system.
+  # The median of the Bordeaux province is (surprisingly) lower than the other four regions,
+  # whose medians are all 88, and its upper quartile is also significantly lower. California
+  # has the largests range of quartiles (especially lower quartile), suggesting a wider
+  # distribution of points (which is also visible in the density graph). Oregon, Tuscany,
+  # and Washington have nearly identical quartiles and medians, but the density function 
+  # suggests Tuscany has fewer wines with very low ratings (a shorter bototm tail) than Oregon 
+  # or Washington.
 
+median(subset(five_wine, province == "Tuscany")$points)
+subset(five_wine, province == "Bordeaux")$points == subset(five_wine, province == "California")$points
+nrow(subset(five_wine, province == "Bordeaux")$points)
+nrow(five_wine)
 # histogram: done
 hist(points, breaks=20, prob = TRUE, col = "cornflowerblue", xlab = "Points /100", main = "Histogram of Wine Ratings")
 
