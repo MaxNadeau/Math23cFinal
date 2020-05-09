@@ -13,9 +13,6 @@ sig = sd(points)
 
 library(ggplot2)
 
-as.vector(ten_wine_table)
-()
-
 ten_wine_table <- sort(table(wine$province), decreasing = TRUE)[1:10]
 ten_wine <- subset(wine, province %in% as.vector(as.list(as.data.frame(ten_wine_table)["Var1"])$Var1)); ten_wine
 ggplot(as.data.frame(ten_wine_table), aes(x = Var1, y = Freq)) +
@@ -25,6 +22,7 @@ ggplot(as.data.frame(ten_wine_table), aes(x = Var1, y = Freq)) +
   theme(plot.title = element_text(face = "bold")) + coord_flip()
 
 # violin plot of points in 10 most abundant provinces
+
 five_wine_table <- sort(table(wine$province), decreasing = TRUE)[1:5]
 five_wine <- subset(wine, province %in% as.vector(as.list(as.data.frame(five_wine_table)["Var1"])$Var1)); five_wine
 ggplot(five_wine, aes(x = province, y = points, fill=province)) + 
