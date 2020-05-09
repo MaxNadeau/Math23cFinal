@@ -9,7 +9,7 @@ mu = mean(points)
 sig = sd(points)
 
 # Graphical displays:
-# barplot of 20 most abundant provinces in sample with ggplot2
+# barplot of 10 most abundant provinces in sample with ggplot2
 
 library(ggplot2)
 
@@ -19,9 +19,6 @@ ggplot(as.data.frame(ten_wine), aes(x = Var1, y = Freq)) +
       ylab("Frequency") + xlab("") + 
       labs(title = "Top 20 Regions", caption = "Data source: Wine Reviews Database") +
       theme(plot.title = element_text(face = "bold")) + coord_flip()
-
-sort(table(wine$province), decreasing = TRUE)[1:20]
-barplot(sort(table(wine$province), decreasing = TRUE)[1:20], las = 2)
 
 # histogram: done
 hist(points, breaks=20, prob = TRUE, col = "cornflowerblue", xlab = "Points /100", main = "Histogram of Wine Ratings")
