@@ -33,18 +33,6 @@ ggplot(five_wine, aes(x = province, y = points, fill=province)) +
 # histogram: done
 hist(points, breaks=20, prob = TRUE, col = "cornflowerblue", xlab = "Points /100", main = "Histogram of Wine Ratings")
 
-# pdf on hist: done
-# conting table: done
-
-
-# Analyses:
-
-# Linear regression and scatter of price and points
-# 
-
-# Graphical displays:
-
-
 
 ##############################
 # Permutation Test
@@ -64,22 +52,22 @@ for(i in 1:length(n)){
   s = sample(1:nrow(wine), nrow(region))
   n[i] = mean(wine$points[s]) - mu
 }
-hist(n, breaks = 40, prob = TRUE, main = "Difference of SW France and Population Means", xlab = )
-abline(v = region_mean - mu)
-abline(v = mu - region_mean)
+hist(n, breaks = 40, prob = TRUE, main = "Difference of Sample and Population Means", xlab = "X bar - Mu", col = "orange")
+abline(v = region_mean - mu, col = "red")
+abline(v = mu - region_mean, col = "red")
 
-p = mean(abs(n) > abs(region_mean - mu)); p
+p = mean(abs(n) > abs(region_mean - mu)); p # p = 0.0101 on the most recent run
+# Significant at 0.05
 
-# p-value based on a distribution function
-
+# p-value based on a distribution function:
 # By CLT, sample means should be normally distributed
 sampdist_sd = sig/sqrt(nrow(region))
 curve(dnorm(x, mean = 0, sd = sampdist_sd), add = TRUE)
 p = pnorm(-abs(region_mean - mu), mean = 0, sd = sampdist_sd) + pnorm(abs(region_mean - mu), mean = 0, sd = sampdist_sd, lower.tail = FALSE); p
 
 # The p-value calculations by the simulation method produced (on my specific run)
-# a p-value of 0.0082, which is quite close to the classically-calculated p-value
-# of 0.00938. Success!
+# a p-value of 0.0101, which is quite close to the classically-calculated p-value
+# of 0.0102. Success!
 
 
 # 95% Confidence interval of SWF points does not contain the population mean
@@ -99,7 +87,7 @@ table(chard, cali)
 #we do a simulation.
 N <- 10000; TC <- numeric(N); 
 for (i in 1:N){
-  scramble <- sample(chard, length(chard), replace = FALSE) #deal the W-E hands
+  scramble <- sample(chard, length(chard), replace = FALSE)
   TC[i] <- sum(cali&scramble)
 }
 
@@ -111,19 +99,31 @@ fisher.test(chard,cali, alternative = "g") # p-value < 2.2 * 10 ^ (-16)
 
 #############################
 # Linear regression
+price = wine$price
+plot(price, points, xlim = c(0,1000), pch = ".", main = "Points Rating vs. Price ($)")
 
+lm <- lm(points~price);lm
+coef = lm$coefficients
+abline(coef[1], coef[2], col = "red")
+pred = coef[1] + coef[2] * price
+r = sqrt(var(pred) / var(points))
+r^2
+# r^2 = 0.173, so 17% of variation in points is explained by price
+summary(lm) # R^2 = 0.173, confirmed
+
+r # 0.416, a moderate correlation
 
 
 # The additional points:
 # 2: long data: done
-# 5: graphical display different from class: violin plot
+# 5: graphical display different from class: done
 # 8: not statistically significant, but is: done
-# 14: linreg
-# 16: correlation
+# 14: linreg: done
+# 16: correlation: done
 # 17: chisq
-# 18: samp dist
-# 20: confidence interval
-# 21: CIs
+# 18: samp dist: done
+# 20: confidence interval: done
+# 21: quantiles
 # 22: 2-person group: done
 
 
