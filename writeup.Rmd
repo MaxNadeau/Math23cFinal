@@ -9,7 +9,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-setwd("~/Documents/Harvard/23c/23cfinal")
+# setwd("~/Documents/Harvard/23c/23cfinal")
 wine = read.csv("winemag-data-130k-v2.csv")
 wine = subset(wine, !is.na(price))
 points = wine$points
