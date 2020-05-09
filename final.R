@@ -29,7 +29,7 @@ ggplot(five_wine, aes(x = province, y = points, fill=province)) +
   geom_violin(trim = FALSE) + 
   stat_summary(fun.y=median, geom="point", shape=23, size=2) +
   geom_boxplot(width=0.1) 
-  # The oscillateion of the density function is due to the integer-only rating system.
+  # The oscillation of the density function is due to the integer-only rating system.
   # The median of the Bordeaux province is (surprisingly) lower than the other four regions,
   # whose medians are all 88, and its upper quartile is also significantly lower. California
   # has the largests range of quartiles (especially lower quartile), suggesting a wider
@@ -129,18 +129,6 @@ summary(lm) # R^2 = 0.173, confirmed
 
 r # 0.416, a moderate, positive correlation
 
-
-# The additional points:
-# 2: long data: done
-# 5: graphical display different from class: done
-# 8: not statistically significant, but is: done
-# 14: linreg: done
-# 16: correlation: done
-# 17: chisq
-# 18: samp dist: done
-# 20: confidence interval: done
-# 21: quantiles
-# 22: 2-person group: done
 
 
 
