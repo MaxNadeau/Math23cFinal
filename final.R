@@ -69,7 +69,6 @@ p = pnorm(-abs(region_mean - mu), mean = 0, sd = sampdist_sd) + pnorm(abs(region
 # a p-value of 0.0101, which is quite close to the classically-calculated p-value
 # of 0.0102. Success!
 
-
 # 95% Confidence interval of SWF points does not contain the population mean
 z = abs(qnorm(0.025))
 region_mean - z * sampdist_sd; region_mean + z * sampdist_sd 
@@ -78,27 +77,32 @@ mu
 
 ##############################
 # Contingency Table
+
+# Are Chardonnays disproportionately Californian?
 cali = wine$province == "California"
 chard = wine$variety =="Chardonnay"
-mean(cali)
-mean(chard)
-table(chard, cali)
+mean(cali) # 28% of wines are Californian
+mean(chard) # 9% are Chardonnays
+table(chard, cali) # seems like there are a lot of TRUE-TRUES
 
-#we do a simulation.
+# Run a simulation to see how often Chard and Cali would both be true
+# were they uncorrelated
 N <- 10000; TC <- numeric(N); 
 for (i in 1:N){
   scramble <- sample(chard, length(chard), replace = FALSE)
   TC[i] <- sum(cali&scramble)
 }
 
-hist(TC, breaks = 20)
-sum(cali&chard) # off the charts, p ~=~ 0
+hist(TC, breaks = 20, main = "Simulated # of Cali Chardonnays, if Uncorrelated",
+     prob = TRUE, xlab = "# of cali && chard out of 130,000 total wines", col = "tan")
+sum(cali&chard) # 5183 is off the charts, p ~=~ 0
+mean(TC > sum(cali&chard)) # 0
 
 fisher.test(chard,cali, alternative = "g") # p-value < 2.2 * 10 ^ (-16)
 # Very significant!
 
 #############################
-# Linear regression
+# Linear regression: Is there a relationship between price and points rating?
 price = wine$price
 plot(price, points, xlim = c(0,1000), pch = ".", main = "Points Rating vs. Price ($)")
 
@@ -111,7 +115,7 @@ r^2
 # r^2 = 0.173, so 17% of variation in points is explained by price
 summary(lm) # R^2 = 0.173, confirmed
 
-r # 0.416, a moderate correlation
+r # 0.416, a moderate, positive correlation
 
 
 # The additional points:
