@@ -14,7 +14,6 @@ sig = sd(points)
 library(ggplot2)
 
 as.vector(ten_wine_table)
-()
 
 ten_wine_table <- sort(table(wine$province), decreasing = TRUE)[1:10]
 ten_wine <- subset(wine, province %in% as.vector(as.list(as.data.frame(ten_wine_table)["Var1"])$Var1)); ten_wine
@@ -34,18 +33,6 @@ ggplot(five_wine, aes(x = province, y = points, fill=province)) +
 
 # histogram: done
 hist(points, breaks=20, prob = TRUE, col = "cornflowerblue", xlab = "Points /100", main = "Histogram of Wine Ratings")
-
-# pdf on hist: done
-# conting table: done
-
-
-# Analyses:
-
-# Linear regression and scatter of price and points
-# 
-
-# Graphical displays:
-
 
 
 ##############################
@@ -114,7 +101,7 @@ fisher.test(chard,cali, alternative = "g") # p-value < 2.2 * 10 ^ (-16)
 #############################
 # Linear regression
 price = wine$price
-plot(price, points, xlim = c(0,1000))
+plot(price, points, xlim = c(0,1000), pch = ".", main = "Points Rating vs. Price ($)")
 
 lm <- lm(points~price);lm
 coef = lm$coefficients
@@ -130,14 +117,14 @@ r # 0.416, a moderate correlation
 
 # The additional points:
 # 2: long data: done
-# 5: graphical display different from class: violin plot
+# 5: graphical display different from class: done
 # 8: not statistically significant, but is: done
-# 14: linreg
-# 16: correlation
+# 14: linreg: done
+# 16: correlation: done
 # 17: chisq
-# 18: samp dist
-# 20: confidence interval
-# 21: CIs
+# 18: samp dist: done
+# 20: confidence interval: done
+# 21: quantiles
 # 22: 2-person group: done
 
 
